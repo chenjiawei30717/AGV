@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>绑定信息</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="/AGV/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="/AGV/css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="/AGV/css/block.css" />
+		<script src="/AGV/js/jquery-3.4.1.min.js" charset="utf-8"></script>
+		<!-- <script src="/ByBus/js/mui.min.js"></script> -->
+		<style>
+			/*隐藏表单上下方横线*/
+			
+			.mui-input-group:before {
+				background-color: rgba(255, 255, 255, 0);
+			}
+			
+			.mui-input-group:after {
+				background-color: rgba(255, 255, 255, 0);
+			}
+			/*重定义登入按钮*/
+			
+			.mui-btn-warning,
+			.mui-btn-yellow {
+				border: 1px solid #59c4ff;
+				background-color: #59c4ff;
+				margin-top: 20px;
+				padding: 7px 60px;
+				box-shadow: #9c9c9c 5px 5px 5px;
+			}
+			/*修改登入框小图标*/
+			
+			.mui-icon-clear:before,
+			.mui-icon-close-filled:before {
+				content: '\e623';
+				color: #28D0DD;
+				font-size: 20px;
+			}
+			
+			.mui-icon-eye:before {
+				content: '\e724';
+				color: #28D0DD;
+				font-size: 24px;
+			}
+			
+			.mui-content {
+				background: url(../img/-illustration1.png) no-repeat;
+				height: 100%;
+				position: absolute;
+				bottom: 0px;
+				width: 100%;
+				background-position-y: bottom;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--顶部颜色快-->
+			<div class="lod-div1">
+				<img class="lod-img" src="../img/sel.png" />
+			</div>
+			<!--表单-->
+			<form class="mui-input-group lod-form" id="input_example">
+				<h3>绑定信息</h3>
+				<label class="lod-label ma20">AGV</label>
+				<!--输入框-->
+				<div class="mui-input-row" align="center" id="agv">
+					
+				</div>
+				<label class="lod-label ma20">棚车</label>
+				<!--输入框-->
+				<div class="mui-input-row" align="center" id="car">
+					<!-- <input type="password" class="mui-input-password bo1" id="password"> -->
+				</div>
+				<label class="lod-label ma20">用户</label>
+				<!--输入框-->
+				<div class="mui-input-row" align="center" id="userid">
+					<!-- <input type="password" class="mui-input-password bo1" id="password"> -->
+				</div>
+				<label class="lod-label ma20">时间</label>
+				<!--输入框-->
+				<div class="mui-input-row" align="center" id="datetime">
+					<!-- <input type="password" class="mui-input-password bo1" id="password"> -->
+				</div>
+			</form>
+			<!--登入按钮-->
+			<center>
+				<button type="button" class="mui-btn mui-btn-warning">绑定</button>
+			</center>
+			
+
+		</div>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"
+		charset="utf-8"></script>
+		<script type="text/javascript">
+		
+		function init(){
+			getAccessToken();
+			var time = new Date().format("yyyy-MM-dd hh:mm:ss");
+			$("#datetime").text(time);
+			setInterval("document.getElementById('datetime').innerHTML=new Date().format('yyyy-MM-dd hh:mm:ss')",1000);
+			getToken();
+			bindClick();
+		}
+		Date.prototype.format = function(formatStr){   
+            var str = formatStr;  
+            str=str.replace(/yyyy|YYYY/,this.getFullYear());  
+            str=str.replace(/MM/,(this.getMonth()+1)>9?(this.getMonth()+1).toString():'0' + (this.getMonth()+1));   
+            str=str.replace(/dd|DD/,this.getDate()>9?this.getDate().toString():'0' + this.getDate());
+            str=str.replace(/hh|HH/,this.getHours()>9?this.getHours().toString():'0' + this.getHours());
+            str=str.replace(/mm/,this.getMinutes()>9?this.getMinutes().toString():'0' + this.getMinutes());
+            str=str.replace(/ss/,this.getSeconds()>9?this.getSeconds().toString():'0' + this.getSeconds());   
+               return str;   
+    }
+		
+		function getParams(key) {
+            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        };
+			//绑定两个按钮的点击事件
+			function bindClick() {
+
+				//这个接口是打开userIds对话框，运行则微信端直接跳到聊天框
+				$("#agv").click(function() {
+					console.log("dshkjhj");
+					//alert("dshk");
+					wx.scanQRCode({
+						desc : 'scanQRCode desc',
+						needResult : 1, // 默认为0，扫描结果由企业微信处理，1则直接返回扫描结果，
+						scanType : [ "qrCode", "barCode" ], // 可以指定扫二维码还是条形码（一维码），默认二者都有
+						success : function(res) {
+							// 回调
+							alert(res);
+							
+							$("#agv").text(res.resultStr);
+						},
+						error : function(res) {
+							if (res.errMsg.indexOf('function_not_exist') > 0) {
+								alert('版本过低请升级')
+							}
+						}
+					});
+				});
+				
+				$("#car").click(function() {
+					console.log("dshkjhj");
+					//alert("dshk");
+					wx.scanQRCode({
+						desc : 'scanQRCode desc',
+						needResult : 1, // 默认为0，扫描结果由企业微信处理，1则直接返回扫描结果，
+						scanType : [ "qrCode", "barCode" ], // 可以指定扫二维码还是条形码（一维码），默认二者都有
+						success : function(res) {
+							// 回调
+							alert(res);
+							$("#car").text(res.resultStr);
+						},
+						error : function(res) {
+							if (res.errMsg.indexOf('function_not_exist') > 0) {
+								alert('版本过低请升级')
+							}
+						}
+					});
+				});
+				
+				
+				$(".mui-btn-warning").click(function() {
+		        	var agv = $("#agv").text();
+		        	var car = $("#car").text();
+		        	var userid = $("#userid").text();
+		        	var datetime = $("#datetime").text();
+		            $.ajax({
+	                     url : "../QywxWeb/saveRecord",
+	                     type : "post",
+	                     data:JSON.stringify({
+	                     	"agv":agv,
+	                     	"car":car,
+	                     	"userid":userid,
+	                     	"datetime":datetime
+	                     }),
+	                     dataType:"json",
+	                     contentType: "application/json",
+	                     success : function(data) {
+	                     		if(data.errcode==0){
+	                     		WeixinJSBridge.call('closeWindow');
+	                     			//window.location.href="./success.html"
+	                     		}else{
+	                     			window.location.href="./error.html"
+	                     		}
+	                     }
+	               })
+		            //
+		        })
+			}
+			
+			function getToken() {
+				$.ajax({
+                    url : "../QywxWeb/getUserid",
+                    type : "post",
+                    data:JSON.stringify({
+                    "code":getParams("code")
+                    }),
+                    dataType:"json",
+                    contentType: "application/json",
+                    success : function(data) {
+                            console.log(data)
+                            //alert(data);
+                            $("#userid").text(data.userid);
+                    }
+            })
+			}
+			
+			
+			
+			function getAccessToken() {
+				$.ajax({
+					url : "../QywxWeb/getconfig",
+					type : "post",
+					data:JSON.stringify({
+	                       "w":"info",
+	                       "code":getParams("code")
+	                       }),
+	                       dataType:"json",
+	                       contentType: "application/json",
+					success : function(data) {
+						console.log(data);
+						console.log("tokenzhi")
+						var json = data;
+						wx.config({
+							beta : true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+							debug : true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+							appId : 'wxf14baa9d825b2745', // 必填，企业微信的corpID
+							timestamp : json.timestamp, // 必填，生成签名的时间戳
+							nonceStr : json.noncestr, // 必填，生成签名的随机串
+							signature : json.signature,// 必填，签名，见附录1
+							jsApiList : [ 'checkJsApi', 'chooseImage',
+									'openEnterpriseChat' ,'scanQRCode']
+						// 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+						});
+						wx.ready(function() {
+							wx.checkJsApi({
+								jsApiList : [ 'chooseImage' ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+								success : function(ress) {
+									//alert(2)
+									// 以键值对的形式返回，可用的api值true，不可用为false
+									// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+								}
+							});
+						});
+					}
+				})
+			
+			
+			
+			}
+			init();
+    	</script>
+	</body>
+
+</html>

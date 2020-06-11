@@ -1,0 +1,22 @@
+
+/*全局*/
+.pa-10{padding-left: 10px;}
+.ma20{margin-top: 20px;}
+.ma40{margin-top: 40px;}
+.ma5f{margin-top: -5px;}
+
+/*登入界面*/
+.lod-div1{background: url(../img/Rounded-Rectangle-1.png);height: 210px;}
+.lod-img{width: 25%;display: block;position: absolute;right: 20px;top: 45px;z-index: 1;}
+.lod-form{background-color: #FFFFFF;border-radius: 10px;padding: 20px;margin: -120px 20px 0px 20px;box-shadow: #9c9c9c 5px 5px 5px;}
+.lod-zh{margin-top: 20px;position: relative;}
+.lod-label{font-size: 14px;color: #949494;display: block;}
+.lod-but{position: absolute;right: 0px;top: 26px;}
+.bo1{border-bottom: #c8c7cc 1px solid !important;}
+.bo1:hover{border-bottom: #2DC1FE 2px solid !important;transition: all 0.7s ease-in-out;}
+.lod-quek{border: #000000 1px solid;margin: 30px 20px 0px 20px;overflow: hidden;}
+.lod-wjmm{text-align: right;margin-top: 15px;font-size: 13px;color: #83a4e2;}
+.lod-hr{width: 80%;border: 1px solid #d4d4d4;}
+.lod-sjuser{font-size: 16px;color: #ababab;}
+.lod-sj-img{width: 35px;margin: 20px 10px;}
+.lod-register{color: #1889ed;}

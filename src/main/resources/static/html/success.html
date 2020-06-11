@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="/AGV/js/jquery-3.4.1.min.js" charset="utf-8"></script>
+<link
+	href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui-for-work.css"
+	rel="stylesheet">
+<title>扫描乘车详情页</title>
+</head>
+<body>
+	<div class="page">
+		<div class="page__bd page__bd_spacing">
+			<div class="icon-box" align="center"
+				style="position: absolute;
+						left:50%;
+						top:50%;
+						transform: translate(-50%, -50%);">
+				<i class="weui-icon-success weui-icon_msg"></i>
+				<div class="icon-box__ctn">
+					<!-- <h3 class="icon-box__title">扫码成功</h3> -->
+					<h2>
+						<p class="icon-box__desc">扫码乘车成功</p>
+					</h2>
+				</div>
+				<div class="page__bd page__bd_spacing">
+				    <a href="javascript:;" class="weui-btn weui-btn_primary">退出</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+	        $(".weui-btn_primary").click(function() {
+	        	WeixinJSBridge.call('closeWindow');
+	        })
+	    } )
+	</script>
+</body>
+</html>

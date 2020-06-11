@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>主页</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta charset="utf-8" />
+<style type="text/css">
+    html, body { color:#222; font-family:Microsoft YaHei, Helvitica, Verdana, Tohoma, Arial, san-serif; margin:0; padding: 0; text-decoration: none; }
+    img { border:0; }
+    ul { list-style: none outside none; margin:0; padding: 0; }
+    body {
+        background-color:#eee;
+    }
+    body .mainmenu:after { clear: both; content: " "; display: block; }
+
+    body .mainmenu li{
+        float:left;
+        margin-left: 2.5%;
+        margin-top: 2.5%;
+        width: 30%; 
+        border-radius:3px;
+        overflow:hidden;
+    }
+
+    body .mainmenu li a{ display:block;  color:#FFF;   text-align:center }
+    body .mainmenu li a b{
+        display:block; height:80px;
+    }
+    body .mainmenu li a img{
+        margin: 15px auto 15px;
+        width: 50px;
+        height: 50px;
+    }
+
+    body .mainmenu li a span{ display:block; height:30px; line-height:30px;background-color:#FFF; color: #999; font-size:14px; }
+
+    body .mainmenu li:nth-child(8n+1) {background-color:#36A1DB}
+    body .mainmenu li:nth-child(8n+2) {background-color:#678ce1}
+    body .mainmenu li:nth-child(8n+3) {background-color:#8c67df}
+    body .mainmenu li:nth-child(8n+4) {background-color:#84d018}
+    body .mainmenu li:nth-child(8n+5) {background-color:#14c760}
+    body .mainmenu li:nth-child(8n+6) {background-color:#f3b613}
+    body .mainmenu li:nth-child(8n+7) {background-color:#ff8a4a}
+    body .mainmenu li:nth-child(8n+8) {background-color:#fc5366}
+</style>
+</head>
+
+<body>
+    <ul class="mainmenu">
+        <li><div id="one"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>关于我们</span></a></div></li>
+        <li><div id="two"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>新闻中心</span></a></div></li>
+        <li><div id="three"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>产品展示</span></a></div></li>
+        <li><div id="four"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>成功案例</span></a></div></li>
+        <li><div id="five"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>下载中心</span></a></div></li>
+        <li><div id="six"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>团队介绍</span></a></div></li>
+        <li><div id="seven"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>人才招聘</span></a></div></li>
+        <li><div id="eight"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>联系我们</span></a></div></li>
+        <li><div id="nine"><a href="javascript:;" ><b><img src="../img/1.png" /></b><span>在线留言</span></a></div></li>         
+    </ul>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"
+		charset="utf-8"></script>
+    <script src="/AGV/js/jquery-3.4.1.min.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+	init();
+	function init(){
+		getToken();
+		bindClick();
+	}
+		//绑定两个按钮的点击事件
+		function bindClick() {
+
+			//这个接口是打开userIds对话框，运行则微信端直接跳到聊天框
+			$("#one").click(function() {
+				console.log("dshkjhj");
+				//alert("dshk");
+				wx.scanQRCode({
+					desc : 'scanQRCode desc',
+					needResult : 1, // 默认为0，扫描结果由企业微信处理，1则直接返回扫描结果，
+					scanType : [ "qrCode", "barCode" ], // 可以指定扫二维码还是条形码（一维码），默认二者都有
+					success : function(res1) {
+						// 回调
+					},
+					error : function(res) {
+						if (res.errMsg.indexOf('function_not_exist') > 0) {
+							alert('版本过低请升级')
+						}
+					}
+				});
+			});
+		}
+		
+		function getToken() {
+			$.ajax({
+				url : "../QywxWeb/getconfig",
+				type : "get",
+				dataType : "json",
+				success : function(data) {
+					console.log(data);
+					console.log("tokenzhi")
+					var json = data;
+					wx.config({
+						beta : true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+						debug : true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+						appId : 'wxf14baa9d825b2745', // 必填，企业微信的corpID
+						timestamp : json.timestamp, // 必填，生成签名的时间戳
+						nonceStr : json.noncestr, // 必填，生成签名的随机串
+						signature : json.signature,// 必填，签名，见附录1
+						jsApiList : [ 'checkJsApi', 'chooseImage',
+								'openEnterpriseChat' ,'scanQRCode']
+					// 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					});
+					wx.ready(function() {
+						wx.checkJsApi({
+							jsApiList : [ 'chooseImage' ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+							success : function(ress) {
+								//alert(2)
+								// 以键值对的形式返回，可用的api值true，不可用为false
+								// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+							}
+						});
+					});
+				}
+			})
+		
+		
+		
+		}
+
+			
+</script>
+
+</body>
+</html>

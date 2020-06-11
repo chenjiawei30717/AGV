@@ -27,7 +27,7 @@ public class HelloController {
     }
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/api/Base/LoginApp")
-	@ResponseBody
+	@ResponseBody 
 	public JSONObject login(@RequestBody JSONObject json1) {
     	System.out.println("接收请求");
     	System.out.println(json1.toJSONString());
